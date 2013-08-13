@@ -125,6 +125,8 @@ class RGBLed(EventEmitter):
     self._green = Led(board, pins["green"])
     self._blue = Led(board, pins["blue"])
 
+
+
   def off(self):
     self._red.off(); self._green.off(); self._blue.off()
     return self
@@ -156,6 +158,22 @@ class RGBLed(EventEmitter):
   def white(self):
     self._red.on(); self._green.on(); self._blue.on()
     return self
+
+  def setColor(self, hexColTuple):
+    if self._red._pin.mode != pyfirmata.PWM:
+      self._red._pin.mode= pyfirmata.PWM 
+    if self._green._pin.mode != pyfirmata.PWM:
+      self._green._pin.mode= pyfirmata.PWM
+    if self._blue._pin.mode != pyfirmata.PWM:
+      self._blue._pin.mode= pyfirmata.PWM
+
+    self._red._pin.write(hexColTuple[0]/255)
+    self._green._pin.write(hexColTuple[1]/255)
+    self._blue._pin.write(hexColTuple[2]/255)
+    return self
+
+
+
 
 class Buzzer(Led):
   pass
